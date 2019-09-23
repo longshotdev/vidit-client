@@ -19,6 +19,19 @@ import ReactPlayer from "react-player";
 import axios from "axios";
 import { SnackbarProvider, useSnackbar } from "notistack";
 import Copyright from "../../components/Copyright";
+import SplashScreen from "../../components/SplashScreen";
+
+function trunc(text, n) {
+  return text.length > n ? text.substr(0, n - 1) + "…" : text;
+}
+
+const videoConfig = {
+  file: {
+    attributes: {
+      controlsList: "nodownload"
+    }
+  }
+};
 const useStyles = makeStyles(theme => ({
   "@global": {
     body: {
@@ -121,6 +134,7 @@ const Page = ({ ...props }) => {
         setIsDownloading("false");
         console.log("Finished");
         enqueueSnackbar("Uploaded Video! Refresh your page!", "success");
+        setProgress(0);
       });
     // fetch("http://localhost:4000/video/upload", {
     //   method: "POST",
@@ -130,7 +144,7 @@ const Page = ({ ...props }) => {
     // });
   };
   if (!getVideos) {
-    return <p>Loading</p>;
+    return <SplashScreen />;
   } else
     return (
       <Container component="main">
@@ -191,8 +205,14 @@ const VideoPlayer = ({ ...props }) => {
   } = props;
   return (
     <div className="VideoPlayer">
-      <Typography align="center" component="h1" variant="h5">
-        Playing: {getVideos[getID].title} | Status: <code>{videoState}</code>
+      <Typography
+        align="center"
+        component="h1"
+        variant="h5"
+        title={getVideos[getID].title}
+      >
+        Playing: {trunc(getVideos[getID].title, 20)} | Status:{" "}
+        <code>{videoState}</code>
         <Button
           variant="outlined"
           onClick={handleOpen}
@@ -207,6 +227,7 @@ const VideoPlayer = ({ ...props }) => {
         playing
         controls
         light
+        config={videoConfig}
         onReady={() => setVideoState("Ready")}
         onPause={() => setVideoState("Paused")}
         onBuffer={() => setVideoState("Buffering...")}
@@ -224,7 +245,11 @@ const UploadVideo = ({ ...props }) => {
         onSubmit={e => handleUpload(e)}
         encType="multipart/form-data"
       >
-        <LinearProgress variant="determinate" value={Math.round(progress, 2)} />
+        <LinearProgress
+          variant="determinate"
+          value={Math.round(progress, 2)}
+          title={`${Math.round(progress, 2)}%`}
+        />
         <input
           type="file"
           name="video"
@@ -249,7 +274,7 @@ const UploadVideo = ({ ...props }) => {
 function RenderVideos({ ...props }) {
   let { videos, onClick } = props;
   return (
-    <Paper>
+    <Paper style={{ maxHeight: 200, overflow: "auto" }}>
       <List component="nav">
         {videos.map((c, i) => {
           return (

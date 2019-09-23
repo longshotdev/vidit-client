@@ -53,6 +53,7 @@
     "react-app-polyfill": "^1.0.3",
     "react-dev-utils": "^9.0.4",
     "react-dom": "^16.9.0",
+    "react-loading-screen": "^0.0.17",
     "react-player": "^1.13.0",
     "react-router-dom": "^5.0.1",
     "reactstrap": "^8.0.1",
