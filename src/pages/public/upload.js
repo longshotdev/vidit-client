@@ -84,9 +84,15 @@ const Page = ({ ...props }) => {
   const { enqueueSnackbar } = useSnackbar();
   useEffect(() => {
     async function getVideos() {
+      try {
       let data = await fetch("http://localhost:4000/videos", { method: "GET" });
-      let fuckedup = await data.json();
-      setVideos(fuckedup);
+      let lol = await data.json();
+      setVideos(lol);
+    } catch(e) {
+      console.log("ERROR:")
+      setTimeout(() => getVideos(), 4000)
+      console.error(e);
+    }
     }
     getVideos();
   }, []);
@@ -118,6 +124,7 @@ const Page = ({ ...props }) => {
     event.preventDefault();
     let CancelToken = axios.CancelToken;
     const data = new FormData();
+    if(!uploadInput.files[0]) return enqueueSnackbar("Select a Valid Video!", { variant: "error"});
     data.append("file", uploadInput.files[0]);
     data.append("filename", uploadInput.files[0].name);
     axios
@@ -133,7 +140,7 @@ const Page = ({ ...props }) => {
       .then(response => {
         setIsDownloading("false");
         console.log("Finished");
-        enqueueSnackbar("Uploaded Video! Refresh your page!", "success");
+        enqueueSnackbar("Uploaded Video! Refresh your page!", { variant: "sucess"});
         setProgress(0);
       });
     // fetch("http://localhost:4000/video/upload", {
