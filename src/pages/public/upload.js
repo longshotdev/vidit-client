@@ -3,35 +3,19 @@ import {
   Container,
   CssBaseline,
   makeStyles,
-  Typography,
   Paper,
   Modal,
   Fade,
   Backdrop,
-  Button,
-  List,
-  ListItem,
-  Input,
-  LinearProgress,
   Box
 } from "@material-ui/core";
-import ReactPlayer from "react-player";
 import axios from "axios";
 import { SnackbarProvider, useSnackbar } from "notistack";
 import Copyright from "../../components/Copyright";
 import SplashScreen from "../../components/SplashScreen";
-
-function trunc(text, n) {
-  return text.length > n ? text.substr(0, n - 1) + "…" : text;
-}
-
-const videoConfig = {
-  file: {
-    attributes: {
-      controlsList: "nodownload"
-    }
-  }
-};
+import VideoPlayer from "../../components/Upload/ReactPlayer";
+import UploadVideo from "../../components/Upload/UploadVideo";
+import RenderVideos from "../../components/Upload/RenderVideos";
 const useStyles = makeStyles(theme => ({
   "@global": {
     body: {
@@ -49,7 +33,7 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.secondary.main
   },
   form: {
-    width: "100%", // Fix IE 11 issue.
+    width: "100%", // Fix IE 11 issue. i know who uses IE 11 lmao
     marginTop: theme.spacing(3)
   },
   submit: {
@@ -71,13 +55,6 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default ({ ...props }) => {
-  return (
-    <SnackbarProvider maxSnack={3}>
-      <Page />
-    </SnackbarProvider>
-  );
-};
 
 const Page = ({ ...props }) => {
   const classes = useStyles();
@@ -97,7 +74,7 @@ const Page = ({ ...props }) => {
     getVideos();
   }, []);
 
-  const [videoState, setVideoState] = useState("Ready.");
+  const [videoState, setVideoState] = useState("Loading");
   const [getVideos, setVideos] = useState();
   const [getID, setID] = useState(1);
   const [Video, setVideo] = useState(
@@ -106,8 +83,9 @@ const Page = ({ ...props }) => {
   // Upload Files
   const [uploadInput, setUploadInput] = useState();
   const [progress, setProgress] = useState(0);
-  const [isDownloading, setIsDownloading] = useState("false");
-  const [isModalOpen, setModalOpen] = useState(false);
+  const [isDownloading, setIsDownloading] = useState("false"); // it doesnt work with Booleans 
+  const [isModalOpen, setModalOpen] = useState(false);         // apparently and react doesnt 
+                                                               // like it either smh 
   let playVideo = id => {
     setID(id);
     setVideo(`http://localhost:4000/videos/play/${id}`);
@@ -200,97 +178,12 @@ const Page = ({ ...props }) => {
       </Container>
     );
 };
-const VideoPlayer = ({ ...props }) => {
-  let {
-    getVideos,
-    getID,
-    handleOpen,
-    classes,
-    videoState,
-    Video,
-    setVideoState
-  } = props;
+
+
+export default ({ ...props }) => {
   return (
-    <div className="VideoPlayer">
-      <Typography
-        align="center"
-        component="h1"
-        variant="h5"
-        title={getVideos[getID].title}
-      >
-        Playing: {trunc(getVideos[getID].title, 20)} | Status:{" "}
-        <code>{videoState}</code>
-        <Button
-          variant="outlined"
-          onClick={handleOpen}
-          className={classes.button}
-        >
-          Select Video
-        </Button>
-      </Typography>
-      <ReactPlayer
-        url={Video}
-        type="video/mp4"
-        playing
-        controls
-        light
-        config={videoConfig}
-        onReady={() => setVideoState("Ready")}
-        onPause={() => setVideoState("Paused")}
-        onBuffer={() => setVideoState("Buffering...")}
-      ></ReactPlayer>
-    </div>
+    <SnackbarProvider maxSnack={3}>
+      <Page />
+    </SnackbarProvider>
   );
 };
-const UploadVideo = ({ ...props }) => {
-  let { handleUpload, progress, setUploadInput, cancel, isDownloading } = props;
-  return (
-    <div>
-      <h2>Upload Video</h2>
-      <form
-        id="uploadForm"
-        onSubmit={e => handleUpload(e)}
-        encType="multipart/form-data"
-      >
-        <LinearProgress
-          variant="determinate"
-          value={Math.round(progress, 2)}
-          title={`${Math.round(progress, 2)}%`}
-        />
-        <input
-          type="file"
-          name="video"
-          ref={ref => {
-            setUploadInput(ref);
-          }}
-          accept="video/*"
-        />
-        <Button variant="outlined" type="submit">
-          Upload!
-        </Button>
-        <Input
-          type="button"
-          value="Cancel"
-          onClick={() => cancel()}
-          disabled={isDownloading}
-        />
-      </form>
-    </div>
-  );
-};
-function RenderVideos({ ...props }) {
-  let { videos, onClick } = props;
-  return (
-    <Paper style={{ maxHeight: 200, overflow: "auto" }}>
-      <List component="nav">
-        {videos.map((c, i) => {
-          return (
-            <ListItem key={i} onClick={() => onClick(i)}>
-              {c.title}
-            </ListItem>
-          );
-        })}
-      </List>
-    </Paper>
-  );
-}
