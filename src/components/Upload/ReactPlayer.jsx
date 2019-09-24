@@ -1,8 +1,7 @@
 import React from "react";
 import { Typography, Button} from '@material-ui/core';
 import ReactPlayer from "react-player";
-
-
+import customMediaBar from "../customMediaBar.jsx";
 function trunc(text, n) {
   return text.length > n ? text.substr(0, n - 1) + "…" : text;
 } // add to library to use;
