@@ -2739,7 +2739,7 @@ class-utils@^0.3.5:
     isobject "^3.0.0"
     static-extend "^0.1.1"
 
-classnames@^2.2.3, classnames@^2.2.6:
+classnames@^2.2.3:
   version "2.2.6"
   resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.2.6.tgz#43935bffdd291f326dad0a205309b38d00f650ce"
   integrity sha512-JR/iSQOSt+LQIWwrwEzJ9uk0xfN3mTVYMwt1Ir5mUcSN6pU+V4zQFFaJsclJbPuAUQH+yfWef6tm7l1quW3C8Q==
@@ -2824,10 +2824,10 @@ clone-deep@^4.0.1:
     kind-of "^6.0.2"
     shallow-clone "^3.0.0"
 
-clsx@^1.0.2:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/clsx/-/clsx-1.0.4.tgz#0c0171f6d5cb2fe83848463c15fcc26b4df8c2ec"
-  integrity sha512-1mQ557MIZTrL/140j+JVdRM6e31/OA4vTYxXgqIIZlndyfjHpyawKZia1Im05Vp9BWmImkcNrNtFYQMyFcgJDg==
+clsx@^1.0.2, clsx@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/clsx/-/clsx-1.1.0.tgz#62937c6adfea771247c34b54d320fb99624f5702"
+  integrity sha512-3avwM37fSK5oP6M5rQ9CNe99lwxhXDOeSWVPAOYF6OazUTgZCMb0yWlJpmdD74REy1gkEaFiub2ULv4fq9GUhA==
 
 co@^4.6.0:
   version "4.6.0"
@@ -7267,14 +7267,13 @@ normalize-url@^3.0.0:
   resolved "https://registry.yarnpkg.com/normalize-url/-/normalize-url-3.3.0.tgz#b2e1c4dc4f7c6d57743df733a4f5978d18650559"
   integrity sha512-U+JJi7duF1o+u2pynbp2zXDW2/PADgC30f0GsHZtRh+HOcXHnw137TrNlyxxRvWW5fjKd3bcLHPxofWuCjaeZg==
 
-notistack@^0.9.2:
-  version "0.9.2"
-  resolved "https://registry.yarnpkg.com/notistack/-/notistack-0.9.2.tgz#333ca7e08e85ae10867b1e8be5d82b149676aad6"
-  integrity sha512-Z2zi3ankqvwmrQvUx7SHM2X3P8llbPA/O1nM1hqn2fGuffn40Fi8isw701pdxczxA6S7huSyfOE/ZPgeTpWmrQ==
+notistack@^0.9.13:
+  version "0.9.13"
+  resolved "https://registry.yarnpkg.com/notistack/-/notistack-0.9.13.tgz#3d6079d918266da3f666b6c2e1ffe42301e5c737"
+  integrity sha512-pOU4+bo0VTYoZm/9SdzZTBT32XL7Y7f74FAYfSL7QmFR/jWm0tHaCK/PfuJSQ8UAC3QDa50lsTUOADRm87FpuQ==
   dependencies:
-    classnames "^2.2.6"
+    clsx "^1.1.0"
     hoist-non-react-statics "^3.3.0"
-    prop-types "^15.7.2"
     react-is "^16.8.6"
 
 npm-bundled@^1.0.1:
